@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Acme Brand Hub</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap">
+<style>
+/* Layout: Apple-style gallery. White canvas, centred headline then one large rounded tile per idea, alternating white / soft grey. One action colour. Light only, by choice. */
+:root{
+  color-scheme:light;
+  --canvas:#FFFFFF;
+  --soft:#F5F5F7;
+  --ink:#1D1D1F;
+  --muted:#6E6E73;
+  --hair:#E5E5EA;
+  --leaf:#1E7A4C;       /* the one brand + action colour */
+  --lilac:#B48CD6;      /* product tint, used only in photos and swatches */
+  --butter:#F3E9A6;     /* label fill */
+  --f:"Geist",-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0}
+body{background:var(--canvas);color:var(--ink);font:17px/1.5 var(--f);letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+.in{max-width:1080px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+
+/* floating pill nav (from the portfolio) */
+.nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:center;padding:calc(14px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px));pointer-events:none}
+.pill{pointer-events:auto;display:flex;align-items:center;gap:6px;height:44px;max-width:100%;padding:0 6px 0 14px;border-radius:999px;
+  background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(14px) saturate(1.8);backdrop-filter:blur(14px) saturate(1.8);
+  box-shadow:inset 0 0 0 .5px rgba(0,0,0,.08),inset 1px 1px 0 -.5px rgba(255,255,255,.9),0 1px 2px rgba(0,0,0,.05),0 10px 30px -10px rgba(0,0,0,.2)}
+.pill .mark{display:flex;align-items:center;flex:none}
+.pill .mark img{height:28px;mix-blend-mode:multiply}
+.pill .sep{width:1px;height:16px;background:rgba(0,0,0,.14);flex:none;margin:0 6px}
+.pill .links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent)}
+.pill .links::-webkit-scrollbar{display:none}
+.pill a.l{font-size:13px;color:var(--ink);text-decoration:none;white-space:nowrap;padding:7px 12px;border-radius:999px;transition:background .2s}
+.pill a.l:hover{background:rgba(0,0,0,.05)}
+.pill a.l.on{background:var(--ink);color:#fff}
+@media (min-width:821px){.pill .links{-webkit-mask-image:none}}
+
+section{padding-block:120px}
+.intro{text-align:center;max-width:720px;margin:0 auto 56px}
+.eyebrow{font-size:17px;font-weight:600;color:var(--leaf);margin:0 0 10px}
+h1,h2{margin:0;font-weight:600;letter-spacing:-.035em;text-wrap:balance}
+h1{font-size:clamp(44px,7vw,80px);line-height:1.04}
+h2{font-size:clamp(34px,5vw,56px);line-height:1.07}
+.lead{font-size:clamp(19px,2.2vw,24px);line-height:1.4;color:var(--muted);margin:20px auto 0;max-width:34ch;font-weight:400}
+h3{font-size:21px;font-weight:600;letter-spacing:-.02em;margin:0 0 6px}
+p{margin:0}
+.small{font-size:14px;color:var(--muted)}
+
+.tile{border-radius:22px;overflow:hidden;background:var(--soft)}
+.tile.white{background:var(--canvas);border:1px solid var(--hair)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+
+/* hero */
+.hero{padding-block:120px 120px}
+html{scroll-padding-top:80px;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.hero .photo{border-radius:22px;overflow:hidden;aspect-ratio:16/8;background:#dfe6df}
+.hero .photo img{width:100%;height:100%;object-fit:cover}
+.cta{display:inline-flex;gap:28px;margin-top:28px;font-size:17px}
+.cta a{color:var(--leaf);text-decoration:none}
+.cta a:hover{text-decoration:underline}
+
+/* logo */
+.logo-main{display:grid;place-items:center;aspect-ratio:16/8;background:#fff;border:1px solid var(--hair)}
+.logo-main img{width:min(380px,60%);mix-blend-mode:multiply}
+.logo-alt{display:grid;place-items:center;aspect-ratio:4/3}
+.logo-alt img{width:48%}
+.on-leaf{background:var(--leaf)}
+.on-leaf img{filter:grayscale(1) invert(1) brightness(1.7) contrast(1.5);mix-blend-mode:screen}
+.on-butter{background:var(--butter)}
+.on-butter img{mix-blend-mode:multiply}
+.rules{margin-top:56px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px}
+.rules p{color:var(--muted);font-size:15px}
+
+/* colour */
+.swatch{aspect-ratio:1/1.1;display:flex;flex-direction:column;justify-content:flex-end;padding:24px}
+.swatch b{font-size:21px;font-weight:600;letter-spacing:-.02em}
+.swatch span{font-size:14px;opacity:.8;margin-top:4px}
+.ratio{display:flex;height:12px;border-radius:99px;overflow:hidden;margin-top:28px;border:1px solid var(--hair)}
+
+/* type */
+.type-hero{padding:56px;text-align:center}
+.type-hero .big{font-size:clamp(80px,16vw,200px);font-weight:600;letter-spacing:-.06em;line-height:1}
+.type-hero .name{margin-top:16px;color:var(--muted)}
+.weights{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:20px}
+.weights .tile{padding:28px}
+.weights .w{font-size:44px;letter-spacing:-.03em;line-height:1}
+.fonts{margin-top:56px;border-top:1px solid var(--hair)}
+.fonts .row{display:grid;grid-template-columns:200px minmax(0,1fr) auto;gap:24px;align-items:baseline;padding-block:22px;border-bottom:1px solid var(--hair)}
+.fonts .sample{font-size:28px;letter-spacing:-.02em}
+.tag{font-size:12px;font-weight:500;color:var(--leaf);background:#E8F3EC;border-radius:99px;padding:4px 10px;white-space:nowrap}
+
+/* photography */
+.photos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.photos figure{margin:0;position:relative;min-width:0}
+.photos .wide{grid-column:1/-1}
+.photos img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:22px}
+.photos .wide img{aspect-ratio:16/8}
+.photos figcaption{position:absolute;left:16px;bottom:16px;font-size:13px;font-weight:500;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.85);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:20px}
+.products .tile{background:#fff;border:1px solid var(--hair);padding:20px}
+.products img{aspect-ratio:3/4;object-fit:contain;width:100%}
+
+/* rose range */
+.seg{display:inline-flex;margin-top:28px;padding:3px;border-radius:999px;background:#E8E8ED}
+.seg button{font:500 14px var(--f);border:0;background:none;color:var(--ink);padding:8px 18px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.roses{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.rose{margin:0;border-radius:22px;overflow:hidden;background:#fff;aspect-ratio:1/1;display:grid;place-items:center}
+.rose img{width:100%;height:100%;object-fit:contain;grid-area:1/1}
+.rose .c{padding:6%}
+.rose .o{display:none;object-fit:cover}
+.roses.show-orig .rose{background:#000}
+.roses.show-orig .c{display:none}
+.roses.show-orig .o{display:block}
+@media (max-width:820px){.roses{grid-template-columns:repeat(2,minmax(0,1fr))}.rose{border-radius:18px}}
+@media (max-width:560px){.roses{gap:12px}}
+
+/* packaging */
+.pack{display:grid;grid-template-columns:1.3fr 1fr;gap:20px}
+.pack .tile img{width:100%;height:100%;object-fit:cover}
+.label{background:var(--butter);border-radius:22px;padding:36px;display:flex;flex-direction:column;justify-content:center}
+.label dl{display:grid;grid-template-columns:auto 1fr;gap:12px 24px;margin:0;font-size:17px}
+.label dt{color:#6b6440}
+.label dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums}
+
+/* voice */
+.voice .tile{padding:40px;background:#fff}
+.voice q{display:block;font-size:26px;line-height:1.3;letter-spacing:-.02em;font-weight:500;quotes:"“" "”"}
+.voice .no q{color:#AEAEB2;font-weight:400}
+.voice .who{font-size:14px;font-weight:600;margin-bottom:14px}
+.voice .yes .who{color:var(--leaf)}
+.voice .no .who{color:var(--muted)}
+
+/* next */
+.next{border-top:1px solid var(--hair)}
+.next li{display:flex;justify-content:space-between;gap:20px;padding-block:20px;border-bottom:1px solid var(--hair)}
+.next ul{list-style:none;padding:0;margin:0;max-width:720px;margin-inline:auto}
+.next span:last-child{color:var(--muted);font-size:15px;text-align:right}
+
+footer{padding-block:40px 60px;text-align:center;color:var(--muted);font-size:12px}
+
+@media (max-width:820px){
+  section{padding-block:80px}
+  .hero{padding-block:96px 80px}
+  .grid3,.rules,.weights,.products{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pack{grid-template-columns:minmax(0,1fr)}
+  .tile,.photos img,.label{border-radius:18px}
+}
+@media (max-width:560px){
+  section{padding-block:64px}
+  .intro{margin-bottom:36px}
+  .grid2,.grid3,.photos,.rules{grid-template-columns:minmax(0,1fr)}
+  .grid3 .swatch{aspect-ratio:2/1 !important}
+  .weights .w{font-size:32px}
+  .weights .tile{padding:20px}
+  .products{gap:12px}
+  .products .tile{padding:12px}
+  .fonts .row{grid-template-columns:minmax(0,1fr) auto;gap:6px 12px}
+  .fonts .row .sample{grid-column:1/-1;grid-row:2;font-size:22px}
+  .type-hero,.voice .tile,.label{padding:24px}
+  .voice q{font-size:21px}
+  .hero .photo,.logo-main,.photos .wide img{aspect-ratio:4/3}
+  .logo-main img{width:75%}
+  .next li{flex-direction:column;gap:2px}
+  .next span:last-child{text-align:left}
+  .cta{flex-direction:column;gap:10px}
+  .pill{padding-left:10px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .tile img,.photos img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+  .photos img:hover{transform:scale(1.015)}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <nav class="pill" aria-label="Sections">
+    <a class="mark" href="#top" aria-label="Back to top"><img src="a/m1.jpg" alt="Acme"></a>
+    <span class="sep" aria-hidden="true"></span>
+    <div class="links">
+      <a class="l" href="#logo">Logo</a><a class="l" href="#colour">Colour</a><a class="l" href="#type">Type</a><a class="l" href="#photography">Photos</a><a class="l" href="#roses">Roses</a><a class="l" href="#packaging">Packaging</a><a class="l" href="#voice">Voice</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+<section class="hero" id="top">
+  <div class="in">
+    <div class="intro">
+      <p class="eyebrow">Acme Brand Guidelines</p>
+      <h1>Grown in Kenya.<br>Fresh everywhere.</h1>
+      <p class="lead">How Acme looks, sounds and shows up, from the farm to the florist.</p>
+      <div class="cta"><a href="#logo">See the brand ›</a><a href="#next">What's next ›</a></div>
+    </div>
+    <div class="photo"><img src="a/s-roses.jpg" alt="Rows of red roses growing in a greenhouse"></div>
+  </div>
+</section>
+
+<section id="logo" style="background:var(--soft)">
+  <div class="in">
+    <div class="intro">
+      <h2>The logo.</h2>
+      <p class="lead">Two leaves meet to form an A. Simple enough to read on a box from across a cold room.</p>
+    </div>
+    <div class="tile logo-main"><img src="a/m1.jpg" alt="Acme logo"></div>
+    <div class="grid2" style="margin-top:20px">
+      <div class="tile logo-alt on-leaf"><img src="a/m1.jpg" alt="Logo in white on green"></div>
+      <div class="tile logo-alt on-butter"><img src="a/m1.jpg" alt="Logo on butter yellow"></div>
+    </div>
+    <div class="rules">
+      <div><h3>Space</h3><p>Keep one leaf's width clear on every side.</p></div>
+      <div><h3>Size</h3><p>At least 24 mm in print, 120 px on screen.</p></div>
+      <div><h3>Colour</h3><p>Green on white, or white on green. Nothing else.</p></div>
+      <div><h3>Don't</h3><p>Stretch it, add effects, or place it on busy flowers.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="colour">
+  <div class="in">
+    <div class="intro">
+      <h2>Mostly white.<br>A little green.</h2>
+      <p class="lead">White lets the flowers carry the colour. Green is the brand. Butter marks the label.</p>
+    </div>
+    <div class="grid3">
+      <div class="tile white swatch"><b>White</b><span>#FFFFFF · the canvas</span></div>
+      <div class="tile swatch" style="background:var(--leaf);color:#fff"><b>Leaf</b><span>#1E7A4C · logo, links, boxes</span></div>
+      <div class="tile swatch" style="background:var(--butter)"><b>Butter</b><span>#F3E9A6 · labels only</span></div>
+    </div>
+    <div class="grid3" style="margin-top:20px">
+      <div class="tile swatch" style="background:var(--ink);color:#fff;aspect-ratio:2/1"><b>Ink</b><span>#1D1D1F · text</span></div>
+      <div class="tile swatch" style="background:var(--soft);aspect-ratio:2/1"><b>Mist</b><span>#F5F5F7 · alternate sections</span></div>
+      <div class="tile swatch" style="background:var(--lilac);aspect-ratio:2/1"><b>Lilac</b><span>#B48CD6 · comes from the flowers, never added</span></div>
+    </div>
+    <div class="ratio" aria-label="Use about 70% white, 15% mist, 10% leaf, 5% butter">
+      <div style="flex:70;background:#fff"></div><div style="flex:15;background:var(--soft)"></div><div style="flex:10;background:var(--leaf)"></div><div style="flex:5;background:var(--butter)"></div>
+    </div>
+    <p class="small" style="margin-top:12px;text-align:center">About 70 white · 15 mist · 10 leaf · 5 butter</p>
+  </div>
+</section>
+
+<section id="type" style="background:var(--soft)">
+  <div class="in">
+    <div class="intro">
+      <h2>One typeface.<br>Easy to read.</h2>
+      <p class="lead">Geist: clean, rounded where it counts, and close to Apple's own system font.</p>
+    </div>
+    <div class="tile white type-hero"><div class="big">Aa</div><p class="name">Geist · free on Google Fonts</p></div>
+    <div class="weights">
+      <div class="tile white"><div class="w" style="font-weight:300">Light</div><p class="small" style="margin-top:12px">Large intros</p></div>
+      <div class="tile white"><div class="w" style="font-weight:400">Regular</div><p class="small" style="margin-top:12px">Body text</p></div>
+      <div class="tile white"><div class="w" style="font-weight:500">Medium</div><p class="small" style="margin-top:12px">Labels, quotes</p></div>
+      <div class="tile white"><div class="w" style="font-weight:600">Semibold</div><p class="small" style="margin-top:12px">Headlines</p></div>
+    </div>
+    <div class="fonts" id="fonts">
+      <div class="row"><b>Geist</b><span class="sample" style="font-family:'Geist'">Stock, 70 cm, cut at dawn.</span><span class="tag">Chosen</span></div>
+      <div class="row"><b>Onest</b><span class="sample" style="font-family:'Onest'">Stock, 70 cm, cut at dawn.</span><span class="small">Softer, friendlier</span></div>
+      <div class="row"><b>Figtree</b><span class="sample" style="font-family:'Figtree'">Stock, 70 cm, cut at dawn.</span><span class="small">Rounder, warmer</span></div>
+      <div class="row"><b>Manrope</b><span class="sample" style="font-family:'Manrope'">Stock, 70 cm, cut at dawn.</span><span class="small">Wider, more modern</span></div>
+      <div class="row"><b>Hanken Grotesk</b><span class="sample" style="font-family:'Hanken Grotesk'">Stock, 70 cm, cut at dawn.</span><span class="small">Calm, very readable</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="photography">
+  <div class="in">
+    <div class="intro">
+      <h2>Real farms.<br>Real journeys.</h2>
+      <p class="lead">People at work in natural light, the trip to market, and stems on pure white.</p>
+    </div>
+    <div class="photos">
+      <figure class="wide"><img src="a/s-grower.jpg" alt="A grower smiling among flowers in a greenhouse"><figcaption>Grow</figcaption></figure>
+      <figure><img src="a/s-cargo.jpg" alt="Freight pallets being loaded onto a cargo plane at night"><figcaption>Ship</figcaption></figure>
+      <figure><img src="a/s-delivery.jpg" alt="A courier unloading boxes from a delivery truck"><figcaption>Deliver</figcaption></figure>
+    </div>
+    <div class="products">
+      <div class="tile"><img src="a/p144805.jpg" alt="Lilac stock on white"></div>
+      <div class="tile"><img src="a/p1448043.jpg" alt="Cream stock on white"></div>
+      <div class="tile"><img src="a/p1448033.jpg" alt="Flower stems on white"></div>
+      <div class="tile"><img src="a/p144807.jpg" alt="Flower stems on white"></div>
+      <div class="tile"><img src="a/q1.jpg" alt="Flower stems on white" loading="lazy"></div>
+      <div class="tile"><img src="a/q2.jpg" alt="Flower stems on white" loading="lazy"></div>
+      <div class="tile"><img src="a/q3.jpg" alt="Flower stems on white" loading="lazy"></div>
+      <div class="tile"><img src="a/q4.jpg" alt="Flower stems on white" loading="lazy"></div>
+      <div class="tile"><img src="a/q5.jpg" alt="Flower stems on white" loading="lazy"></div>
+      <div class="tile"><img src="a/q6.jpg" alt="Flower stems on white" loading="lazy"></div>
+      <div class="tile"><img src="a/q7.jpg" alt="Flower stems on white" loading="lazy"></div>
+      <div class="tile"><img src="a/q8.jpg" alt="Flower stems on white" loading="lazy"></div>
+      <div class="tile"><img src="a/q9.jpg" alt="Flower stems on white" loading="lazy"></div>
+      <div class="tile"><img src="a/q10.jpg" alt="Flower stems on white" loading="lazy"></div>
+      <div class="tile"><img src="a/q11.jpg" alt="Flower stems on white" loading="lazy"></div>
+      <div class="tile"><img src="a/q12.jpg" alt="Flower stems on white" loading="lazy"></div>
+      <div class="tile"><img src="a/q13.jpg" alt="Flower stems on white" loading="lazy"></div>
+      <div class="tile"><img src="a/q14.jpg" alt="Flower stems on white" loading="lazy"></div>
+      <div class="tile"><img src="a/q15.jpg" alt="Flower stems on white" loading="lazy"></div>
+      <div class="tile"><img src="a/q16.jpg" alt="Flower stems on white" loading="lazy"></div>
+    </div>
+    <p class="small" style="text-align:center;margin-top:24px">20 of the catalogue shots. Every product photo follows this setup.</p>
+  </div>
+</section>
+
+<section id="roses" style="background:var(--soft)">
+  <div class="in">
+    <div class="intro">
+      <h2>The rose range.</h2>
+      <p class="lead">Every variety cut out on white for the catalogue, with the original studio shot kept beside it.</p>
+      <div class="seg" role="group" aria-label="Show rose images">
+        <button type="button" id="segCut" aria-pressed="true">Cut out</button>
+        <button type="button" id="segOrig" aria-pressed="false">Original</button>
+      </div>
+    </div>
+    <div class="roses" id="roseGrid">
+      <script>
+        for(let i=1;i<=12;i++)document.write(`<figure class="rose"><img class="c" src="a/r${i}.png" alt="Rose variety, background removed" loading="lazy"><img class="o" src="a/o${i}.jpg" alt="Rose variety, original on black" loading="lazy"></figure>`);
+      </script>
+    </div>
+  </div>
+</section>
+
+<section id="packaging">
+  <div class="in">
+    <div class="intro">
+      <h2>Every box tells you<br>what's inside.</h2>
+      <p class="lead">A butter label on every box, always in the same order.</p>
+    </div>
+    <div class="pack">
+      <div class="tile"><img src="a/box1.jpg" alt="Green Acme flower box with label"></div>
+      <div class="label">
+        <dl>
+          <dt>Variety</dt><dd>Stock, Lilac</dd>
+          <dt>Length</dt><dd>70 cm</dd>
+          <dt>Bunch</dt><dd>10 stems</dd>
+          <dt>Cut</dt><dd>Tue 18 Nov, 05:40</dd>
+          <dt>Origin</dt><dd>Kenya</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="voice" class="voice" style="background:var(--soft)">
+  <div class="in">
+    <div class="intro">
+      <h2>Say it simply.</h2>
+      <p class="lead">Short sentences. Real numbers. Let the flowers be the pretty part.</p>
+    </div>
+    <div class="grid2">
+      <div class="tile yes"><p class="who">Say</p><q>Cut on Tuesday morning. At auction on Wednesday.</q></div>
+      <div class="tile no"><p class="who">Not</p><q>Experience the magic of nature's finest blooms.</q></div>
+    </div>
+  </div>
+</section>
+
+<section id="next" class="next" style="padding-top:100px">
+  <div class="in">
+    <div class="intro" style="margin-bottom:32px"><h2>Still to decide.</h2></div>
+    <ul>
+      <li><span>Company name</span><span>Acme is a placeholder</span></li>
+      <li><span>Final logo</span><span>Redraw as vector after naming</span></li>
+      <li><span>Photography</span><span>Replace farm images with a real shoot</span></li>
+      <li><span>Mockups</span><span>Next page: boxes, truck, website, social</span></li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer>Acme Brand Guidelines · Draft 3 · November 2026</footer>
+
+<script>
+const segCut=document.getElementById('segCut'),segOrig=document.getElementById('segOrig'),rg=document.getElementById('roseGrid');
+function showOrig(on){rg.classList.toggle('show-orig',on);segOrig.setAttribute('aria-pressed',on);segCut.setAttribute('aria-pressed',!on);}
+segCut.onclick=()=>showOrig(false);segOrig.onclick=()=>showOrig(true);
+const navLinks=[...document.querySelectorAll('.pill a.l')];
+const spy=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)navLinks.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id));}),{rootMargin:'-45% 0px -50% 0px'});
+document.querySelectorAll('section[id]').forEach(s=>spy.observe(s));
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400&family=Figtree:wght@400&family=Manrope:wght@400&family=Hanken+Grotesk:wght@400&display=swap">
+
+</body>
+</html>
